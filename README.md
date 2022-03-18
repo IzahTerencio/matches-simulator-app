@@ -9,3 +9,6 @@ Este repositrio tem como objetivo o desenvolvimento de uma aplicação Android n
   ### 2. Sobre o *GitHub Pages*
    "Você pode usar GitHub Pages para hospedar um site sobre você, sua organização, ou seu projeto diretamente a partir de um repositório em GitHub.com".
    Disponível em: <[https://docs.github.com/pt/pages/getting-started-with-github-pages/about-github-pages](url)>.
+  ### 3. Retrofit
+  Cliente HTTP para Andoid e Java.
+  Disponível em: <[https://square.github.io/retrofit/](url)>.
