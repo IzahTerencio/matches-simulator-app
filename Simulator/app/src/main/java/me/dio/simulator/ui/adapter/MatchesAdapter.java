@@ -1,10 +1,13 @@
 package me.dio.simulator.ui.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -29,8 +32,13 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position){
+        Context context = holder.itemView.getContext();
         Match match = matches.get(position);
+
+        Glide.with(context).load(match.getHome().getImage()).into(holder.binding.imgvHomeTeam);
         holder.binding.txtvHomeTeamName.setText(match.getHome().getName());
+
+        Glide.with(context).load(match.getVisitor().getImage()).into(holder.binding.imgvVisitingTeam);
         holder.binding.txtvVisitingTeamName.setText(match.getVisitor().getName());
     }
 
