@@ -13,10 +13,6 @@
         android:theme="@style/Theme.Simulator">
 
         <activity
-            android:name=".ui.DetailActivity"
-            android:theme="@style/Theme.Simulator.NoActionBar"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -25,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.DetailActivity"
+            android:theme="@style/Theme.Simulator.NoActionBar"
+            android:exported="true"
+            android:parentActivityName=".ui.MainActivity" />
     </application>
 
 </manifest>
