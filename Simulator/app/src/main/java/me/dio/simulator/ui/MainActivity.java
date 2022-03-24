@@ -1,5 +1,7 @@
 package me.dio.simulator.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -51,17 +53,20 @@ public class MainActivity extends AppCompatActivity {
         matchesApi = retrofit.create(MatchesAPI.class);
     }
 
+
     private void setupMatchesList() {
         binding.rvMatches.setHasFixedSize(true);
 
         findMatchesFromAPI();
     }
 
-    private void findMatchesFromAPI() {
+    private void findMatchesFromAPI(){
+        binding.srlMatches.setRefreshing(true); // Flag que faz o controle do loading
+
         matchesApi.getMatches()
                 .enqueue(new Callback<List<Match>>() {
                     @Override
-                    public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
+                    public void onResponse(Call<List<Match>> call, Response<List<Match>> response){
                         if (response.isSuccessful()) {
                             List<Match> matches = response.body();
                             matchesAdapter = new MatchesAdapter(matches);
@@ -69,21 +74,34 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             showErrorMessage();
                         }
+
+                        binding.srlMatches.setRefreshing(false);
                     }
 
                     @Override
                     public void onFailure(Call<List<Match>> call, Throwable t) {
                         showErrorMessage();
+                        binding.srlMatches.setRefreshing(false);
                     }
                 });
     }
 
-    private void setupMatchesRefresh() {
-        // TODO: Atualizar partidas com swipe
+
+    private void setupMatchesRefresh(){
+        binding.srlMatches.setOnRefreshListener(this::findMatchesFromAPI);
     }
 
+
     private void setupFloatingActionButton() {
-        // TODO: Criar evento de clique
+        binding.fabSimulate.setOnClickListener(view -> {
+            view.animate().rotationBy(360).setDuration(700).setListener(new AnimatorListenerAdapter(){
+                @Override
+                public void onAnimationEnd(Animator animaton) {
+                    // TODO: Implementar algoritmo de simulação de partidas
+                }
+
+            });
+        });
     }
 
     private void showErrorMessage() {
