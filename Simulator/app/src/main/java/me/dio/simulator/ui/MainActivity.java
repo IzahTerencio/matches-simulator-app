@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -22,14 +21,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MatchesAPI matchesApi;
     private RecyclerView.Adapter matchesAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState){
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     // Neste método são criadas todas as estruturas necessárias ao Retrofit
-    private void setupHttpClient(){
+    private void setupHttpClient() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://izahterencio.github.io/matches-simulator-api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -52,19 +51,22 @@ public class MainActivity extends AppCompatActivity{
         matchesApi = retrofit.create(MatchesAPI.class);
     }
 
-    private void setupMatchesList(){
+    private void setupMatchesList() {
         binding.rvMatches.setHasFixedSize(true);
-        binding.rvMatches.setLayoutManager(new LinearLayoutManager(this));
 
+        findMatchesFromAPI();
+    }
+
+    private void findMatchesFromAPI() {
         matchesApi.getMatches()
                 .enqueue(new Callback<List<Match>>() {
                     @Override
                     public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             List<Match> matches = response.body();
                             matchesAdapter = new MatchesAdapter(matches);
                             binding.rvMatches.setAdapter(matchesAdapter);
-                        } else{
+                        } else {
                             showErrorMessage();
                         }
                     }
@@ -76,15 +78,15 @@ public class MainActivity extends AppCompatActivity{
                 });
     }
 
-    private void setupMatchesRefresh(){
+    private void setupMatchesRefresh() {
         // TODO: Atualizar partidas com swipe
     }
 
-    private void setupFloatingActionButton(){
+    private void setupFloatingActionButton() {
         // TODO: Criar evento de clique
     }
 
-    private void showErrorMessage(){
+    private void showErrorMessage() {
         Snackbar.make(binding.fabSimulate, R.string.error_api, Snackbar.LENGTH_LONG).show();
     }
 
