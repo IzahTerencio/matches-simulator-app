@@ -18,9 +18,16 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
     private List<Match> matches;
 
+
     public MatchesAdapter(List<Match> matches){
         this.matches = matches;
     }
+
+
+    public List<Match> getMatches(){
+        return(matches);
+    }
+
 
     @NonNull
     @Override
@@ -30,6 +37,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         return(new ViewHolder(binding));
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position){
         Context context = holder.itemView.getContext();
@@ -37,15 +45,23 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
         Glide.with(context).load(match.getHome().getImage()).into(holder.binding.imgvHomeTeam);
         holder.binding.txtvHomeTeamName.setText(match.getHome().getName());
+        if(match.getHome().getScore() != null){
+            holder.binding.txtvHomeTeamScore.setText(String.valueOf(match.getHome().getScore()));
+        }
 
         Glide.with(context).load(match.getVisitor().getImage()).into(holder.binding.imgvVisitingTeam);
         holder.binding.txtvVisitingTeamName.setText(match.getVisitor().getName());
+        if(match.getHome().getScore() != null){
+            holder.binding.txtvVisitingTeamScore.setText(String.valueOf(match.getVisitor().getScore()));
+        }
     }
+
 
     @Override
     public int getItemCount(){
         return(matches.size());
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
