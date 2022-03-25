@@ -28,7 +28,25 @@ class DetailActivity : AppCompatActivity() {
     private fun loadMatchFromExtra(){
         intent?.extras?.getParcelable<Match>(Extras.MATCH)?.let{
             Glide.with(this).load(it.place.image).into(binding.ivPlace)
-            supportActionBar?.title = it.place.name.
+            supportActionBar?.title = it.place.name
+
+            binding.tvDescription.text = it.description
+
+            Glide.with(this).load(it.home.image).circleCrop().into(binding.ivHomeTeam)
+            binding.tvHomeTeamName.text = it.home.name
+            binding.rbHomeTeamStars.rating = it.home.stars.toFloat()
+
+            if(it.home.score != null){
+                binding.tvHomeTeamScore.text = it.home.score.toString()
+            }
+
+            Glide.with(this).load(it.visitor.image).circleCrop().into(binding.ivAwayTeam)
+            binding.tvAwayTeamName.text = it.visitor.name
+            binding.rbAwayTeamStars.rating = it.visitor.stars.toFloat()
+
+            if(it.visitor.score != null){
+                binding.tvAwayTeamScore.text = it.visitor.score.toString()
+            }
         }
     }
 }
